@@ -2,15 +2,21 @@
 В командную строку в соответствии с данным шаблоном вводятся параметры: 
 usage: LogAnalyzer [--filter-field <arg>] [--filter-value <arg>] [--format
        <arg>] [--from <arg>] [--path <arg>] [--to <arg>]
+
      --filter-field <arg>    field by which logs will be filtered, only works in
                              combination with filter-value, Possible values:
                              [METHOD, STATUS, REMOTE_ADDRESS, BYTES_SENT]
+
      --filter-value <arg>    field value by which logs will be filtered
+
      --format <arg>          output file format, only adoc and markdown are
                              supported
+
      --from <arg>            start time of logs that should be analysed
                              (ISO-8601 format)
+
      --path <arg>            local path or URL to NGINX log file
+
      --to <arg>              end time of logs that should be analysed (ISO-8601
                              format)
 
