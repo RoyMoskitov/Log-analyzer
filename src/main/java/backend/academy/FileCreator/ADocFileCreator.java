@@ -7,6 +7,12 @@ import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+/**
+ * The ADocFileCreator class is responsible for creating a ADoc file
+ * containing statistical data presented in tables. It implements the FileCreator
+ * interface and writes the statistics to a file, formatting them in a readable
+ * ADoc structure with general information and detailed statistics.
+ */
 public class ADocFileCreator implements FileCreator {
     @Override
     @SuppressWarnings("MultipleStringLiterals")

@@ -8,6 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 
+/**
+ * The ResponseStatistics class implements the Statistics interface to track and analyze
+ * various response metrics, such as the total number of responses, average response size,
+ * 95th percentile of response size, and daily log activity statistics.
+ */
 @Getter
 public class ResponseStatistics implements Statistics {
     public static final Integer TDIGEST_ACCURACY = 100;

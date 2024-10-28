@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.NoArgsConstructor;
 
+/**
+ * The ResourceStatistics class is designed to track how often different resources are requested in logs.
+ */
 @NoArgsConstructor
 public class ResourceStatistics implements Statistics {
     public static final Integer FIRST_COLUMN_LENGTH = 24;

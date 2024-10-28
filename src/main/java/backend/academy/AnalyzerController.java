@@ -36,6 +36,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.tuple.Pair;
 
+/**
+ * The AnalyzerController class handles the command-line arguments for log analysis,
+ * processes log files (either from local paths or URLs), applies filters, and
+ * generates output files in Markdown or AsciiDoc format.
+ */
 public class AnalyzerController {
     private static final Option PATH = new Option(null, "path", true,
         "local path or URL to NGINX log file");

@@ -4,6 +4,10 @@ import backend.academy.LogMapping.Log;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The StatusStatistics class implements the Statistics interface to track the frequency
+ * of HTTP status codes in logs. It stores the status codes and their occurrences.
+ */
 public class StatusStatistics implements Statistics {
     public static final Integer FIRST_COLUMN_LENGTH = 11;
     public static final Integer SECOND_COLUMN_LENGTH = 26;

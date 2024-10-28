@@ -2,6 +2,10 @@ package backend.academy.Statistics;
 
 import backend.academy.LogMapping.Log;
 
+/**
+ * The Statistics interface defines methods for updating statistics based on log entries
+ * and writing the results in AsciiDoc or Markdown format.
+ */
 public interface Statistics {
     void update(Log log);
 

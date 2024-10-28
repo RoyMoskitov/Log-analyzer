@@ -18,6 +18,12 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The LogHandler class processes input streams of log data, validating log entries
+ * based on time range and optional filters. It parses log lines, updates statistics,
+ * and handles invalid lines, throwing an exception if the number of invalid entries
+ * exceeds MAX_INVALID_STRINGS parameter.
+ */
 public class LogHandler {
 
     public static final List<Statistics> STATISTICS_LIST = List.of(new ResponseStatistics(),
