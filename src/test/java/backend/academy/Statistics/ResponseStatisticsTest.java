@@ -67,15 +67,15 @@ class ResponseStatisticsTest {
         responseStatistics.update(log2);
         responseStatistics.update(log3);
 
-        assertTrue(responseStatistics.writeStatisticsInADoc().contains(
+        assertTrue(responseStatistics.writeStatistics("adoc").contains(
             "|    Response number    |                                    3                                     |"));
-        assertTrue(responseStatistics.writeStatisticsInADoc().contains(
+        assertTrue(responseStatistics.writeStatistics("adoc").contains(
             "| Average response size |                                   400                                    |"));
-        assertTrue(responseStatistics.writeStatisticsInADoc().contains(
+        assertTrue(responseStatistics.writeStatistics("adoc").contains(
             "|   95p response size   |                                   500                                    |"));
-        assertTrue(responseStatistics.writeStatisticsInADoc().contains(
+        assertTrue(responseStatistics.writeStatistics("adoc").contains(
             "| Average logs per day  |                                    1                                     |"));
-        assertTrue(responseStatistics.writeStatisticsInADoc().contains(
+        assertTrue(responseStatistics.writeStatistics("adoc").contains(
             "|   Peak load per day   |                                    2                                     |"));
     }
 
@@ -85,15 +85,15 @@ class ResponseStatisticsTest {
         responseStatistics.update(log2);
         responseStatistics.update(log3);
 
-        assertTrue(responseStatistics.writeStatisticsInMarkdown().contains(
+        assertTrue(responseStatistics.writeStatistics("markdown").contains(
             "|    Response number    |                                    3                                     |"));
-        assertTrue(responseStatistics.writeStatisticsInMarkdown().contains(
+        assertTrue(responseStatistics.writeStatistics("markdown").contains(
             "| Average response size |                                   400                                    |"));
-        assertTrue(responseStatistics.writeStatisticsInMarkdown().contains(
+        assertTrue(responseStatistics.writeStatistics("markdown").contains(
             "|   95p response size   |                                   500                                    |"));
-        assertTrue(responseStatistics.writeStatisticsInMarkdown().contains(
+        assertTrue(responseStatistics.writeStatistics("markdown").contains(
             "| Average logs per day  |                                    1                                     |"));
-        assertTrue(responseStatistics.writeStatisticsInMarkdown().contains(
+        assertTrue(responseStatistics.writeStatistics("markdown").contains(
             "|   Peak load per day   |                                    2                                     |"));
     }
 }

@@ -67,9 +67,9 @@ class ResourceStatisticsTest {
         resourceStatistics.update(log2);
         resourceStatistics.update(log3);
 
-        assertTrue(resourceStatistics.writeStatisticsInADoc()
+        assertTrue(resourceStatistics.writeStatistics("adoc")
             .contains("|        doc/users         |     2     |"));
-        assertTrue(resourceStatistics.writeStatisticsInADoc()
+        assertTrue(resourceStatistics.writeStatistics("adoc")
             .contains("|          music           |     1     |"));
     }
 
@@ -79,9 +79,9 @@ class ResourceStatisticsTest {
         resourceStatistics.update(log2);
         resourceStatistics.update(log3);
 
-        assertTrue(resourceStatistics.writeStatisticsInADoc()
+        assertTrue(resourceStatistics.writeStatistics("markdown")
             .contains("|        doc/users         |     2     |"));
-        assertTrue(resourceStatistics.writeStatisticsInMarkdown()
+        assertTrue(resourceStatistics.writeStatistics("markdown")
             .contains("|          music           |     1     |"));
     }
 }

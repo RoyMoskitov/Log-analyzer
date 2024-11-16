@@ -68,11 +68,11 @@ class StatusStatisticsTest {
         statusStatistics.update(log2);
         statusStatistics.update(log3);
 
-        assertTrue(statusStatistics.writeStatisticsInADoc()
+        assertTrue(statusStatistics.writeStatistics("adoc")
             .contains("|     404     |         Not Found          |     1     |"));
-        assertTrue(statusStatistics.writeStatisticsInADoc()
+        assertTrue(statusStatistics.writeStatistics("adoc")
             .contains("|     102     |         Processing         |     1     |"));
-        assertTrue(statusStatistics.writeStatisticsInADoc()
+        assertTrue(statusStatistics.writeStatistics("adoc")
             .contains("|     303     |         See Other          |     1     |"));
     }
 
@@ -82,11 +82,11 @@ class StatusStatisticsTest {
         statusStatistics.update(log2);
         statusStatistics.update(log3);
 
-        assertTrue(statusStatistics.writeStatisticsInMarkdown()
+        assertTrue(statusStatistics.writeStatistics("markdown")
             .contains("|     404     |         Not Found          |     1     |"));
-        assertTrue(statusStatistics.writeStatisticsInMarkdown()
+        assertTrue(statusStatistics.writeStatistics("markdown")
             .contains("|     102     |         Processing         |     1     |"));
-        assertTrue(statusStatistics.writeStatisticsInMarkdown()
+        assertTrue(statusStatistics.writeStatistics("markdown")
             .contains("|     303     |         See Other          |     1     |"));
     }
 }

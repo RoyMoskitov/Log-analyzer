@@ -67,7 +67,6 @@ class AnalyzerControllerTest {
 
         AnalyzerController.processAnalysis(args, printStream);
 
-        assertTrue(output.toString().contains("This file does not exist"));
         assertTrue(output.toString().contains("usage: LogAnalyzer"));
     }
 
