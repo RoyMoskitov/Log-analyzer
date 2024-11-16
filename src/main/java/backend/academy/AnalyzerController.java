@@ -43,7 +43,7 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 public class AnalyzerController {
     private static final Option PATH = new Option(null, "path", true,
-        "local path or URL to NGINX log file");
+        "local path or URL to NGINX log file(s), last file name will be used to name file with statistics");
     private static final Option FROM = new Option(null, "from", true,
         "start time of logs that should be analysed (ISO-8601 format)");
     private static final Option TO = new Option(null, "to", true,
@@ -147,14 +147,14 @@ public class AnalyzerController {
             for (var path : paths) {
                 try (InputStream inputStream = handlePathOption(path)) {
                     LogHandler.processStream(inputStream, fromDate, toDate, filter.getLeft(), filter.getRight());
-                    FileCreator fileCreator = createFileCreator(fileFormat);
-                    fileCreator.createFile(LogHandler.STATISTICS_LIST, path, fromDate, toDate);
-                    output.println("Logs analyzed, file was created in your working directory\n");
                 } catch (IOException | IllegalArgumentException e) {
                     output.println("Something went wrong during the file parsing: " + e.getMessage());
                     printHelp(output, options);
                 }
             }
+            FileCreator fileCreator = createFileCreator(fileFormat);
+            fileCreator.createFile(LogHandler.STATISTICS_LIST, Arrays.stream(paths).toList(), fromDate, toDate);
+            output.println("Logs analyzed, file was created in your working directory\n");
         } else {
             printHelp(output, options);
         }

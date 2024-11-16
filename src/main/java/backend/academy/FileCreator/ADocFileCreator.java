@@ -16,14 +16,29 @@ import java.util.List;
 public class ADocFileCreator implements FileCreator {
     @Override
     @SuppressWarnings("MultipleStringLiterals")
-    public void createFile(List<Statistics> statisticsList, String fileName, OffsetDateTime from, OffsetDateTime to) {
+    public void createFile(
+        List<Statistics> statisticsList, List<String> fileNames,
+        OffsetDateTime from, OffsetDateTime to
+    ) {
+
         StringBuilder resultContent = new StringBuilder();
-        String validFileName = fileName.split("/", -1)[fileName.split("/", -1).length - 1];
+        StringBuilder validFileNames = new StringBuilder();
+
+        //creating string for name of new file & for all file names in one str
+        String validFileName = fileNames.get(fileNames.size() - 1).split("/", -1)
+            [fileNames.get(fileNames.size() - 1).split("/", -1).length - 1];
+        for (var fileName : fileNames) {
+            validFileNames.append(fileName.split("/", -1)[fileName.split("/", -1).length - 1]);
+            if (!fileName.equals(fileNames.get(fileNames.size() - 1))) {
+                validFileNames.append(", ");
+            }
+        }
+
         resultContent.append("=== General Info\n\n")
             .append("|===\n")
             .append("|         Metric        |  ").append(statisticsList.get(0)
                 .centerText("Value", GENERAL_INFO_SECOND_COLUMN_LENGTH)).append("  |\n")
-            .append(createFirstTablePart(statisticsList, validFileName, from, to));
+            .append(createFirstTablePart(statisticsList, validFileNames.toString(), from, to));
 
         for (var statistics : statisticsList) {
             resultContent.append(statistics.writeStatisticsInADoc());

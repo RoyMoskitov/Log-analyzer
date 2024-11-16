@@ -21,7 +21,7 @@ public interface FileCreator {
      * @param from The start date and time of the period for which statistics are collected.
      * @param to The end date and time of the period for which statistics are collected.
      */
-    void createFile(List<Statistics> statisticsList, String fileName, OffsetDateTime from, OffsetDateTime to);
+    void createFile(List<Statistics> statisticsList, List<String> fileName, OffsetDateTime from, OffsetDateTime to);
 
     /**
      * Creates the first part of a table with general information about the statistics.

@@ -14,6 +14,7 @@ public interface Statistics {
     String writeStatisticsInMarkdown();
 
     default String centerText(String text, int length) {
+        if (text.length() >= length) return  " " + text + " ";
         int padding = (length - text.length()) / 2;
         String paddingLeft = " ".repeat(padding);
         String paddingRight = " ".repeat(length - padding - text.length());
