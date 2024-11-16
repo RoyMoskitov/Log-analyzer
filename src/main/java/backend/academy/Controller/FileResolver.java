@@ -46,13 +46,20 @@ public class FileResolver {
     }
 
     public static List<Path> findMatchingFiles(String pathPattern) throws IOException {
-        int lastSeparatorIndex = Math.max(pathPattern.lastIndexOf('/'), pathPattern.lastIndexOf('\\'));
+        if (!pathPattern.startsWith("file:///")) {
+            pathPattern = "file:///" + pathPattern.replace("\\", "/");
+        }
+
+        URI uri = URI.create(pathPattern);
+        String localPath = uri.getPath();
+
+        int lastSeparatorIndex = localPath.lastIndexOf('/');
         if (lastSeparatorIndex == -1) {
             throw new IllegalArgumentException("Incorrect path: " + pathPattern);
         }
 
-        Path directory = Paths.get(pathPattern.substring(0, lastSeparatorIndex));
-        String filePattern = pathPattern.substring(lastSeparatorIndex + 1);
+        Path directory = Paths.get(localPath.substring(0, lastSeparatorIndex));
+        String filePattern = localPath.substring(lastSeparatorIndex + 1);
 
         if (!Files.isDirectory(directory)) {
             throw new IllegalArgumentException("Directory doesn't exist: " + directory);
@@ -60,9 +67,10 @@ public class FileResolver {
 
         try (var fileList = Files.list(directory)) {
             return fileList
-                .filter(path -> path.getFileName().toString().matches(filePattern.replace("*", ".*")))
+                .filter(path -> path.getFileName().toString().startsWith(filePattern.replace("*", "")))
                 .toList();
         }
     }
+
 
 }
