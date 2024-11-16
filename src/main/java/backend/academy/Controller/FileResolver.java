@@ -36,6 +36,7 @@ public class FileResolver {
                     res.add(Files.newInputStream(path));
                     fileNames.add(path.toString().split("\\\\", -1)
                         [path.toString().split("\\\\", -1).length - 1]);
+
                 }
             }
             return res;
@@ -45,7 +46,7 @@ public class FileResolver {
     }
 
     public static List<Path> findMatchingFiles(String pathPattern) throws IOException {
-        int lastSeparatorIndex = pathPattern.lastIndexOf('/');
+        int lastSeparatorIndex = Math.max(pathPattern.lastIndexOf('/'), pathPattern.lastIndexOf('\\'));
         if (lastSeparatorIndex == -1) {
             throw new IllegalArgumentException("Incorrect path: " + pathPattern);
         }
@@ -59,8 +60,9 @@ public class FileResolver {
 
         try (var fileList = Files.list(directory)) {
             return fileList
-                .filter(path -> path.getFileName().toString().startsWith(filePattern.replace("*", "")))
+                .filter(path -> path.getFileName().toString().matches(filePattern.replace("*", ".*")))
                 .toList();
         }
     }
+
 }
