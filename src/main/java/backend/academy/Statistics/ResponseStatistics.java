@@ -39,6 +39,7 @@ public class ResponseStatistics implements Statistics {
     }
 
     @Override
+    @SuppressWarnings("MultipleStringLiterals")
     public String writeStatistics(String fileType) {
         String res = "|    Response number    |  " + centerText(responseNumber.toString(),
             FileCreator.GENERAL_INFO_SECOND_COLUMN_LENGTH) + "  |\n"
@@ -52,7 +53,9 @@ public class ResponseStatistics implements Statistics {
             + "|   Peak load per day   |  "
             + centerText(getMaxLogCount().toString(),
             FileCreator.GENERAL_INFO_SECOND_COLUMN_LENGTH) + "  |\n";
-        if ("adoc".equals(fileType)) res = res.concat("|===\n\n");
+        if ("adoc".equals(fileType)) {
+            res = res.concat("|===\n\n");
+        }
         return res;
     }
 

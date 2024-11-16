@@ -11,7 +11,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -184,24 +183,4 @@ public class AnalyzerController {
             })
             .orElse(defaultValue);
     }
-
-//    @SuppressWarnings("MultipleStringLiterals")
-//    @SuppressFBWarnings({"URLCONNECTION_SSRF_FD", "PATH_TRAVERSAL_IN"})
-//    private static InputStream handlePathOption(String pathValue) {
-//        try {
-//            URI uri = new URI(pathValue);
-//            if ("http".equalsIgnoreCase(uri.getScheme()) || "https".equalsIgnoreCase(uri.getScheme())) {
-//                URL url = uri.toURL();
-//                return url.openStream();
-//            } else {
-//                Path path = Paths.get(uri);
-//                if (!Files.exists(path)) {
-//                    throw new IllegalArgumentException("This file does not exist: " + path);
-//                }
-//                return Files.newInputStream(path);
-//            }
-//        } catch (URISyntaxException | IOException e) {
-//            throw new IllegalArgumentException("Invalid URI: " + e.getMessage(), e);
-//        }
-//    }
 }

@@ -22,6 +22,7 @@ public class StatusStatistics implements Statistics {
     }
 
     @Override
+    @SuppressWarnings("MultipleStringLiterals")
     public String writeStatistics(String fileType) {
         StringBuilder content = new StringBuilder();
 

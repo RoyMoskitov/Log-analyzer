@@ -21,6 +21,7 @@ public class ResourceStatistics implements Statistics {
     }
 
     @Override
+    @SuppressWarnings("MultipleStringLiterals")
     public String writeStatistics(String fileType) {
         StringBuilder content = new StringBuilder();
         if ("adoc".equals(fileType)) {

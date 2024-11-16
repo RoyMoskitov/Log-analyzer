@@ -14,7 +14,9 @@ import java.util.List;
 
 public class FileResolver {
 
-    @SuppressWarnings("MultipleStringLiterals")
+    private FileResolver() {}
+
+    @SuppressWarnings({"MultipleStringLiterals", "ParameterAssignment"})
     @SuppressFBWarnings({"URLCONNECTION_SSRF_FD", "PATH_TRAVERSAL_IN"})
     public static List<InputStream> resolveFiles(String pathValue, List<String> fileNames) {
         List<InputStream> res = new ArrayList<>();
@@ -25,6 +27,10 @@ public class FileResolver {
                 res.add(url.openStream());
                 fileNames.add(pathValue.split("/", -1)[pathValue.split("/", -1).length - 1]);
             } else {
+                if (pathValue.startsWith("file:///")) {
+                    URI uri = URI.create(pathValue);
+                    pathValue = uri.getPath().substring(1);
+                }
                 List<Path> paths = findMatchingFiles(pathValue);
                 for (var path : paths) {
                     res.add(Files.newInputStream(path));
