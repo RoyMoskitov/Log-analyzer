@@ -1,28 +1,24 @@
-package backend.academy;
+package backend.academy.Controller;
 
 import backend.academy.FileCreator.ADocFileCreator;
 import backend.academy.FileCreator.FileCreator;
 import backend.academy.FileCreator.MarkdownFileCreator;
 import backend.academy.LogMapping.FilterFields;
 import backend.academy.LogMapping.LogHandler;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import org.apache.commons.cli.CommandLine;
@@ -135,16 +131,22 @@ public class AnalyzerController {
     ) {
         if (line.hasOption(PATH)) {
             String[] paths = line.getOptionValues(PATH);
+            List<String> fileNames = new ArrayList<>();
             for (var path : paths) {
-                try (InputStream inputStream = handlePathOption(path)) {
-                    LogHandler.processStream(inputStream, fromDate, toDate, filter.getLeft(), filter.getRight());
-                } catch (IOException | IllegalArgumentException e) {
-                    output.println("Something went wrong during the file parsing: " + e.getMessage());
-                    printHelp(output, options);
+
+                List<InputStream> inputStreams = FileResolver.resolveFiles(path, fileNames);
+
+                for (InputStream inputStream : inputStreams) {
+                    try (inputStream) {
+                        LogHandler.processStream(inputStream, fromDate, toDate, filter.getLeft(), filter.getRight());
+                    } catch (IOException | IllegalArgumentException e) {
+                        output.println("Something went wrong during the file parsing: " + e.getMessage());
+                        printHelp(output, options);
+                    }
                 }
             }
             FileCreator fileCreator = createFileCreator(fileFormat);
-            fileCreator.createFile(LogHandler.STATISTICS_LIST, Arrays.stream(paths).toList(), fromDate, toDate);
+            fileCreator.createFile(LogHandler.STATISTICS_LIST, fileNames, fromDate, toDate);
             output.println("Logs analyzed, file was created in your working directory\n");
         } else {
             printHelp(output, options);
@@ -183,23 +185,23 @@ public class AnalyzerController {
             .orElse(defaultValue);
     }
 
-    @SuppressWarnings("MultipleStringLiterals")
-    @SuppressFBWarnings({"URLCONNECTION_SSRF_FD", "PATH_TRAVERSAL_IN"})
-    private static InputStream handlePathOption(String pathValue) {
-        try {
-            URI uri = new URI(pathValue);
-            if ("http".equalsIgnoreCase(uri.getScheme()) || "https".equalsIgnoreCase(uri.getScheme())) {
-                URL url = uri.toURL();
-                return url.openStream();
-            } else {
-                Path path = Paths.get(uri);
-                if (!Files.exists(path)) {
-                    throw new IllegalArgumentException("This file does not exist: " + path);
-                }
-                return Files.newInputStream(path);
-            }
-        } catch (URISyntaxException | IOException e) {
-            throw new IllegalArgumentException("Invalid URI: " + e.getMessage(), e);
-        }
-    }
+//    @SuppressWarnings("MultipleStringLiterals")
+//    @SuppressFBWarnings({"URLCONNECTION_SSRF_FD", "PATH_TRAVERSAL_IN"})
+//    private static InputStream handlePathOption(String pathValue) {
+//        try {
+//            URI uri = new URI(pathValue);
+//            if ("http".equalsIgnoreCase(uri.getScheme()) || "https".equalsIgnoreCase(uri.getScheme())) {
+//                URL url = uri.toURL();
+//                return url.openStream();
+//            } else {
+//                Path path = Paths.get(uri);
+//                if (!Files.exists(path)) {
+//                    throw new IllegalArgumentException("This file does not exist: " + path);
+//                }
+//                return Files.newInputStream(path);
+//            }
+//        } catch (URISyntaxException | IOException e) {
+//            throw new IllegalArgumentException("Invalid URI: " + e.getMessage(), e);
+//        }
+//    }
 }

@@ -1,5 +1,6 @@
 package backend.academy;
 
+import backend.academy.Controller.AnalyzerController;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

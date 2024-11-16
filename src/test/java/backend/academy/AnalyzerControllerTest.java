@@ -1,13 +1,12 @@
 package backend.academy;
 
+import backend.academy.Controller.AnalyzerController;
 import backend.academy.FileCreator.FileCreator;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;

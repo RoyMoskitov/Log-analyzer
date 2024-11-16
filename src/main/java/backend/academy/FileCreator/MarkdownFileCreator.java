@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,18 +17,19 @@ public class MarkdownFileCreator implements FileCreator {
 
     @SuppressWarnings("MultipleStringLiterals")
     @Override
-    public void createFile(List<Statistics> statisticsList, List<String> fileNames,
-        OffsetDateTime from, OffsetDateTime to) {
+    public void createFile(
+        List<Statistics> statisticsList, List<String> fileNames,
+        OffsetDateTime from, OffsetDateTime to
+    ) {
 
         StringBuilder resultContent = new StringBuilder();
         StringBuilder validFileNames = new StringBuilder();
 
         //creating string for name of new file & for all file names in one str
-        String validFileName = fileNames.get(fileNames.size() - 1).split("/", -1)
-            [fileNames.get(fileNames.size() - 1).split("/", -1).length - 1];
+        String validFileName = fileNames.get(fileNames.size() - 1);
         for (var fileName : fileNames) {
-            validFileNames.append(fileName.split("/", -1)[fileName.split("/", -1).length - 1]);
-            if (!fileName.equals(fileNames.get(fileNames.size()-1))) {
+            validFileNames.append(fileName);
+            if (!fileName.equals(fileNames.get(fileNames.size() - 1))) {
                 validFileNames.append(", ");
             }
         }

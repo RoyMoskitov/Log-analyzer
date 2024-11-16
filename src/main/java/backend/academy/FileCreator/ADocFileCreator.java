@@ -25,10 +25,9 @@ public class ADocFileCreator implements FileCreator {
         StringBuilder validFileNames = new StringBuilder();
 
         //creating string for name of new file & for all file names in one str
-        String validFileName = fileNames.get(fileNames.size() - 1).split("/", -1)
-            [fileNames.get(fileNames.size() - 1).split("/", -1).length - 1];
+        String validFileName = fileNames.get(fileNames.size() - 1);
         for (var fileName : fileNames) {
-            validFileNames.append(fileName.split("/", -1)[fileName.split("/", -1).length - 1]);
+            validFileNames.append(fileName);
             if (!fileName.equals(fileNames.get(fileNames.size() - 1))) {
                 validFileNames.append(", ");
             }
