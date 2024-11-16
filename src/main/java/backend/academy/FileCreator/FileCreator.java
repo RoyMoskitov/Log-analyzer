@@ -34,8 +34,10 @@ public interface FileCreator {
         return "|         File          |  " + statisticsList.get(0)
                 .centerText(fileName, GENERAL_INFO_SECOND_COLUMN_LENGTH) + "  |\n"
             + "|      Start date       |  " + statisticsList.get(0)
-                .centerText(from.toString(), GENERAL_INFO_SECOND_COLUMN_LENGTH) + "  |\n"
+                .centerText(OffsetDateTime.MIN.equals(from) ? "-" : from.toString(),
+                    GENERAL_INFO_SECOND_COLUMN_LENGTH) + "  |\n"
             + "|       End date        |  " + statisticsList.get(0)
-                .centerText(to.toString(), GENERAL_INFO_SECOND_COLUMN_LENGTH) + "  |\n";
+                .centerText(OffsetDateTime.MAX.equals(to) ? "-" : to.toString(),
+                    GENERAL_INFO_SECOND_COLUMN_LENGTH) + "  |\n";
     }
 }
