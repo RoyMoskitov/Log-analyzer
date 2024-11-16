@@ -13,12 +13,12 @@ usage: LogAnalyzer [--filter-field <arg>] [--filter-value <arg>] [--format
                              supported
 
      --from <arg>            start time of logs that should be analysed
-                             (ISO-8601 format)
+                             (format: dd/MMM/yyyy:HH:mm:ss Z)
 
      --path <arg>            local path or URL to NGINX log file
 
-     --to <arg>              end time of logs that should be analysed (ISO-8601
-                             format)
+     --to <arg>              end time of logs that should be analysed 
+                             (format: dd/MMM/yyyy:HH:mm:ss Z")
 
 Обязательными являются только параметры --path и --format, --filter-format и --filter-field работают только вместе,
 если from и to date не будут выбраны пользователем, то они автоматически определятся как MIN и MAX date из класса OffsetDateTime
