@@ -23,10 +23,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.Set;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -75,13 +73,6 @@ public class AnalyzerController {
         formatter.printHelp(printWriter, WIDTH_FORMATTER, "LogAnalyzer",
             null, options, LEFT_PAD, DESC_PAD, null, true);
         printWriter.flush();
-    }
-
-    private static final Set<String> ALLOWED_HOSTS = new HashSet<>();
-
-    static {
-        ALLOWED_HOSTS.add("file:///C:/openme.txt");
-        ALLOWED_HOSTS.add("raw.githubusercontent.com");
     }
 
     private static Options setupOptions() {
@@ -197,24 +188,15 @@ public class AnalyzerController {
     private static InputStream handlePathOption(String pathValue) {
         try {
             URI uri = new URI(pathValue);
-            if ("file".equalsIgnoreCase(uri.getScheme())) {
+            if ("http".equalsIgnoreCase(uri.getScheme()) || "https".equalsIgnoreCase(uri.getScheme())) {
+                URL url = uri.toURL();
+                return url.openStream();
+            } else {
                 Path path = Paths.get(uri);
                 if (!Files.exists(path)) {
                     throw new IllegalArgumentException("This file does not exist: " + path);
                 }
                 return Files.newInputStream(path);
-            } else if ("http".equalsIgnoreCase(uri.getScheme()) || "https".equalsIgnoreCase(uri.getScheme())) {
-                URL url = uri.toURL();
-                String host = url.getHost();
-
-                if (!ALLOWED_HOSTS.contains(host)) {
-                    throw new IllegalArgumentException("Access to host " + host + " is not allowed.");
-                }
-
-                return url.openStream();
-            } else {
-                throw new IllegalArgumentException(
-                    "Incorrect scheme: " + uri.getScheme() + ". Parser works only with http/https or local files.");
             }
         } catch (URISyntaxException | IOException e) {
             throw new IllegalArgumentException("Invalid URI: " + e.getMessage(), e);
