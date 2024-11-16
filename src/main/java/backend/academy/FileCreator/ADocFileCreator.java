@@ -41,7 +41,7 @@ public class ADocFileCreator implements FileCreator {
             .append(createFirstTablePart(statisticsList, validFileNames.toString(), from, to));
 
         for (var statistics : statisticsList) {
-            resultContent.append(statistics.writeStatisticsInADoc());
+            resultContent.append(statistics.writeStatistics("adoc"));
         }
         try (FileWriter writer = new FileWriter(validFileName + DEFAULT_ADOC_PATH,
             StandardCharsets.UTF_8)) {

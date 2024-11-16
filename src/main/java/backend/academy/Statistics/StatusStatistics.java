@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * The StatusStatistics class implements the Statistics interface to track the frequency
- * of HTTP status codes in logs. It stores the status codes and their occurrences.
+ * of HTTP status codes in logs. It stores the status codes and their occurrences.*
  */
 public class StatusStatistics implements Statistics {
     public static final Integer FIRST_COLUMN_LENGTH = 11;
@@ -22,31 +22,27 @@ public class StatusStatistics implements Statistics {
     }
 
     @Override
-    @SuppressWarnings("MultipleStringLiterals")
-    public String writeStatisticsInADoc() {
+    public String writeStatistics(String fileType) {
         StringBuilder content = new StringBuilder();
-        content.append("=== Code statistics\n").append("|===\n");
-        content.append("| Status-code |            Name            | Frequency |\n");
 
-        for (Map.Entry<Integer, Integer> entry : responseStatusCode.entrySet()) {
-            content.append(formatRowForTable(entry.getKey(), entry.getValue()));
+        if ("adoc".equals(fileType)) {
+            content.append("=== Code statistics\n").append("|===\n");
+            content.append("| Status-code |            Name            | Frequency |\n");
+
+            for (Map.Entry<Integer, Integer> entry : responseStatusCode.entrySet()) {
+                content.append(formatRowForTable(entry.getKey(), entry.getValue()));
+            }
+
+            content.append("|===\n\n");
+        } else if ("markdown".equals(fileType)) {
+            content.append("#### Code statistics\n\n");
+            content.append("| Status-code |            Name            | Frequency |\n");
+            content.append("|:-----------:|:--------------------------:|:---------:|\n");
+
+            for (Map.Entry<Integer, Integer> entry : responseStatusCode.entrySet()) {
+                content.append(formatRowForTable(entry.getKey(), entry.getValue()));
+            }
         }
-
-        content.append("|===\n\n");
-        return content.toString();
-    }
-
-    @Override
-    public String writeStatisticsInMarkdown() {
-        StringBuilder content = new StringBuilder();
-        content.append("#### Code statistics\n\n");
-        content.append("| Status-code |            Name            | Frequency |\n");
-        content.append("|:-----------:|:--------------------------:|:---------:|\n");
-
-        for (Map.Entry<Integer, Integer> entry : responseStatusCode.entrySet()) {
-            content.append(formatRowForTable(entry.getKey(), entry.getValue()));
-        }
-
         return content.toString();
     }
 

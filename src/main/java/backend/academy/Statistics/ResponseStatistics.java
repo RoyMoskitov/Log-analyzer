@@ -39,14 +39,8 @@ public class ResponseStatistics implements Statistics {
     }
 
     @Override
-    public String writeStatisticsInADoc() {
-        return writeStatisticsInMarkdown() + "|===\n\n";
-    }
-
-    @SuppressWarnings("MultipleStringLiterals")
-    @Override
-    public String writeStatisticsInMarkdown() {
-        return "|    Response number    |  " + centerText(responseNumber.toString(),
+    public String writeStatistics(String fileType) {
+        String res = "|    Response number    |  " + centerText(responseNumber.toString(),
             FileCreator.GENERAL_INFO_SECOND_COLUMN_LENGTH) + "  |\n"
             + "| Average response size |  "
             + centerText(Integer.toString((int) Math.round(averageResponseSize)),
@@ -58,6 +52,8 @@ public class ResponseStatistics implements Statistics {
             + "|   Peak load per day   |  "
             + centerText(getMaxLogCount().toString(),
             FileCreator.GENERAL_INFO_SECOND_COLUMN_LENGTH) + "  |\n";
+        if ("adoc".equals(fileType)) res = res.concat("|===\n\n");
+        return res;
     }
 
     private Integer getAverageLogCountPerDay() {

@@ -20,27 +20,23 @@ public class ResourceStatistics implements Statistics {
             responseNumber.getOrDefault(log.requestResource(), 0) + 1);
     }
 
-    @SuppressWarnings("MultipleStringLiterals")
     @Override
-    public String writeStatisticsInADoc() {
+    public String writeStatistics(String fileType) {
         StringBuilder content = new StringBuilder();
-        content.append("=== Requested resources\n").append("|===\n");
-        content.append("|         Resource         | Frequency |\n");
-        for (Map.Entry<String, Integer> entry : responseNumber.entrySet()) {
-            content.append(formatRowForTable(entry.getKey(), entry.getValue()));
-        }
-        content.append("|===\n\n");
-        return content.toString();
-    }
-
-    @Override
-    public String writeStatisticsInMarkdown() {
-        StringBuilder content = new StringBuilder();
-        content.append("#### Requested resources\n\n");
-        content.append("|         Resource         | Frequency |\n");
-        content.append("|:------------------------:|:---------:|\n");
-        for (Map.Entry<String, Integer> entry : responseNumber.entrySet()) {
-            content.append(formatRowForTable(entry.getKey(), entry.getValue()));
+        if ("adoc".equals(fileType)) {
+            content.append("=== Requested resources\n").append("|===\n");
+            content.append("|         Resource         | Frequency |\n");
+            for (Map.Entry<String, Integer> entry : responseNumber.entrySet()) {
+                content.append(formatRowForTable(entry.getKey(), entry.getValue()));
+            }
+            content.append("|===\n\n");
+        } else if ("markdown".equals(fileType)) {
+            content.append("#### Requested resources\n\n");
+            content.append("|         Resource         | Frequency |\n");
+            content.append("|:------------------------:|:---------:|\n");
+            for (Map.Entry<String, Integer> entry : responseNumber.entrySet()) {
+                content.append(formatRowForTable(entry.getKey(), entry.getValue()));
+            }
         }
         return content.toString();
     }

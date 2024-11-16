@@ -9,9 +9,7 @@ import backend.academy.LogMapping.Log;
 public interface Statistics {
     void update(Log log);
 
-    String writeStatisticsInADoc();
-
-    String writeStatisticsInMarkdown();
+    String writeStatistics(String fileType);
 
     default String centerText(String text, int length) {
         if (text.length() >= length) return  " " + text + " ";

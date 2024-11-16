@@ -41,7 +41,7 @@ public class MarkdownFileCreator implements FileCreator {
             .append("|:---------------------:|: ").append(padding).append(" :|\n")
             .append(createFirstTablePart(statisticsList, validFileNames.toString(), from, to));
         for (var statistics : statisticsList) {
-            resultContent.append(statistics.writeStatisticsInMarkdown());
+            resultContent.append(statistics.writeStatistics("markdown"));
         }
         try (FileWriter writer = new FileWriter(validFileName + DEFAULT_MARKDOWN_PATH,
             StandardCharsets.UTF_8)) {
