@@ -12,11 +12,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"MultipleStringLiterals", "ParameterAssignment"})
 public class FileResolver {
 
     private FileResolver() {}
 
-    @SuppressWarnings({"MultipleStringLiterals", "ParameterAssignment"})
     @SuppressFBWarnings({"URLCONNECTION_SSRF_FD", "PATH_TRAVERSAL_IN"})
     public static List<InputStream> resolveFiles(String pathValue, List<String> fileNames) {
         List<InputStream> res = new ArrayList<>();
@@ -46,20 +46,22 @@ public class FileResolver {
     }
 
     public static List<Path> findMatchingFiles(String pathPattern) throws IOException {
-        if (!pathPattern.startsWith("file:///")) {
-            pathPattern = "file:///" + pathPattern.replace("\\", "/");
+        if (!System.getProperty("os.name").contains("Win")) {
+            if (!pathPattern.startsWith("file:///")) {
+                pathPattern = "file:///" + pathPattern.replace("\\", "/");
+            }
+
+            URI uri = URI.create(pathPattern);
+            pathPattern = uri.getPath();
         }
 
-        URI uri = URI.create(pathPattern);
-        String localPath = uri.getPath();
-
-        int lastSeparatorIndex = localPath.lastIndexOf('/');
+        int lastSeparatorIndex = pathPattern.lastIndexOf('/');
         if (lastSeparatorIndex == -1) {
             throw new IllegalArgumentException("Incorrect path: " + pathPattern);
         }
 
-        Path directory = Paths.get(localPath.substring(0, lastSeparatorIndex));
-        String filePattern = localPath.substring(lastSeparatorIndex + 1);
+        Path directory = Paths.get(pathPattern.substring(0, lastSeparatorIndex));
+        String filePattern = pathPattern.substring(lastSeparatorIndex + 1);
 
         if (!Files.isDirectory(directory)) {
             throw new IllegalArgumentException("Directory doesn't exist: " + directory);
