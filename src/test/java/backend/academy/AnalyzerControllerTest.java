@@ -2,17 +2,20 @@ package backend.academy;
 
 import backend.academy.Controller.AnalyzerController;
 import backend.academy.FileCreator.FileCreator;
-import org.junit.jupiter.api.Test;
-
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AnalyzerControllerTest {
 
@@ -95,4 +98,34 @@ class AnalyzerControllerTest {
         Path filePath = Paths.get(currentDirectory, validFileName + FileCreator.DEFAULT_ADOC_PATH);
         Files.deleteIfExists(filePath);
     }
+
+    @Test
+    void testUrlProcessing() throws IOException {
+
+        WireMockServer wireMockServer = new WireMockServer();
+        wireMockServer.start();
+
+        wireMockServer.stubFor(WireMock.get("/test")
+            .willReturn(WireMock.aResponse()
+                .withStatus(200)
+                .withBody("Test response")));
+
+        URL url = new URL(wireMockServer.baseUrl() + "/test");
+
+        String[] args = {
+            "--path", url.toString(),
+            "--from", "01/Oct/2024:00:00:00 -0700",
+            "--to", "10/Oct/2024:23:59:59 -0700",
+            "--format", "adoc"
+        };
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(output);
+
+        assertDoesNotThrow(() -> AnalyzerController.processAnalysis(args, printStream));
+        assertTrue(output.toString().contains("Logs analyzed, file was created in your working directory"));
+
+        wireMockServer.stop();
+    }
+
 }
