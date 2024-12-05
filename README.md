@@ -24,9 +24,3 @@ usage: LogAnalyzer [--filter-field <arg>] [--filter-value <arg>] [--format
 если from и to date не будут выбраны пользователем, то они автоматически определятся как MIN и MAX date из класса OffsetDateTime
 
 Выходной файл автоматически создается в рабочей директории проекта и называется: <имя входного файла>-log-statistics.<adoc или md в зависимости от параметра --filter>
-
-- Документация по git: https://git-scm.com/doc
-- Javadoc для Java 22:
-  https://docs.oracle.com/en/java/javase/22/docs/api/index.html
-
-[course-url]: https://edu.tinkoff.ru/all-activities/courses/870efa9d-7067-4713-97ae-7db256b73eab
